@@ -43,7 +43,7 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000";
 
 export default function SubscriptionPage() {
   const [plans, setPlans] = useState([]);

@@ -25,7 +25,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function MatchesPage() {
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  const API_BASE = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000";
 
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);

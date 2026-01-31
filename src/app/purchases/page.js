@@ -24,7 +24,7 @@ import {
 import Skeleton from "@mui/material/Skeleton";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000";
 
 export default function PurchasesPage() {
   const [purchases, setPurchases] = useState([]);

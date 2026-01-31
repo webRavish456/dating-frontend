@@ -16,7 +16,7 @@ import {
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000";
 
 export default function SettingsPage() {
   const [emailLoading, setEmailLoading] = useState(true);

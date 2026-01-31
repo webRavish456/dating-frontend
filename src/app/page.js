@@ -24,7 +24,7 @@ import {
 import SkeletonCard from "../components/SkeletonCard";
 import ChartSkeleton from "../components/ChartSkeleton";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000";
 
 const CHART_COLORS = ["#3FA9C5", "#6C63FF", "#00C49F", "#FF8042", "#8884d8", "#82ca9d", "#ffc658", "#ff7c7c"];
 
@@ -46,11 +46,12 @@ export default function HomePage() {
     const fetchAll = async () => {
       setLoading(true);
       setError(null);
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
       try {
         const [systemRes, purchaseRes, couponRes] = await Promise.all([
-          fetch(`${API_BASE}/api/admin/analytics/system`, { credentials: "include" }),
-          fetch(`${API_BASE}/api/admin/purchases/analytics?period=daily&days=90`, { credentials: "include" }),
-          fetch(`${API_BASE}/api/admin/coupons/analytics`, { credentials: "include" }),
+          fetch(`${API_BASE}/api/admin/analytics/system`, { credentials: "include", headers: token ? { Authorization: `Bearer ${token}` } : {} }),
+          fetch(`${API_BASE}/api/admin/purchases/analytics?period=daily&days=90`, { credentials: "include", headers: token ? { Authorization: `Bearer ${token}` } : {} }),
+          fetch(`${API_BASE}/api/admin/coupons/analytics`, { credentials: "include", headers: token ? { Authorization: `Bearer ${token}` } : {} }),
         ]);
 
         const systemJson = await systemRes.json();

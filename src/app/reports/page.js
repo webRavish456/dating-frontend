@@ -28,7 +28,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 export default function ReportsPage() {
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  const API_BASE = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000";
 
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
