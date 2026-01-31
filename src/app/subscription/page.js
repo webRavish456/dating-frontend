@@ -93,7 +93,11 @@ export default function SubscriptionPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${API_BASE}/api/admin/plans`, { credentials: 'include' });
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+      const res = await fetch(`${API_BASE}/api/admin/plans`, {
+        credentials: 'include',
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
       const json = await res.json();
       if (!res.ok) throw new Error(json.message || 'Failed to fetch plans');
       // Normalize plan fields for frontend (planName, likes, superLikes)

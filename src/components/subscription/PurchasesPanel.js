@@ -41,8 +41,9 @@ export default function PurchasesPanel({ purchasesProps }) {
       if (filters.search) params.set('search', filters.search);
       if (filters.planName) params.set('planName', filters.planName);
 
-      const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/admin/purchases?${params.toString()}`, {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+      const API_BASE = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:8000';
+      const res = await fetch(`${API_BASE}/api/admin/purchases?${params.toString()}`, {
         headers: token ? { 'Authorization': `Bearer ${token}` } : {},
         credentials: 'include'
       });

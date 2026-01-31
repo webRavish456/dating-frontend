@@ -59,7 +59,11 @@ export default function SettingsPage() {
   const fetchEmailConfig = async () => {
     setEmailLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/admin/settings/email`, { credentials: "include" });
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      const res = await fetch(`${API_BASE}/api/admin/settings/email`, {
+        credentials: "include",
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
       const json = await res.json();
       if (res.ok && json.data) {
         const d = json.data;
@@ -90,7 +94,11 @@ export default function SettingsPage() {
   const fetchRazorpayConfig = async () => {
     setRazorpayLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/admin/payment/config`, { credentials: "include" });
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      const res = await fetch(`${API_BASE}/api/admin/payment/config`, {
+        credentials: "include",
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
       const json = await res.json();
       if (res.ok && json.data?.razorpay) {
         const r = json.data.razorpay;
@@ -126,9 +134,10 @@ export default function SettingsPage() {
     }
     setSavingEmail(true);
     try {
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
       const res = await fetch(`${API_BASE}/api/admin/settings/email`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
         credentials: "include",
         body: JSON.stringify({
           smtpHost: emailForm.smtpHost,
@@ -161,9 +170,10 @@ export default function SettingsPage() {
     }
     setSavingRazorpay(true);
     try {
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
       const res = await fetch(`${API_BASE}/api/admin/payment/razorpay`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
         credentials: "include",
         body: JSON.stringify({
           keyId: razorpayForm.keyId,

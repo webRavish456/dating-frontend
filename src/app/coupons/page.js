@@ -72,8 +72,10 @@ export default function CouponsPage() {
   const fetchCoupons = async (p = 1, limit = 10) => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/admin/coupons?page=${p}&limit=${limit}`, { 
-        credentials: 'include' 
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+      const res = await fetch(`${API_BASE}/api/admin/coupons?page=${p}&limit=${limit}`, {
+        credentials: 'include',
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.message || 'Failed to fetch coupons');
@@ -115,10 +117,11 @@ export default function CouponsPage() {
         payload.startDate = new Date().toISOString();
       }
 
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
       const res = await fetch(`${API_BASE}/api/admin/coupons`, {
         method: 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
         body: JSON.stringify(payload)
       });
 
@@ -191,10 +194,11 @@ export default function CouponsPage() {
       console.log('Updating coupon:', editCouponId);
       console.log('Payload:', payload);
 
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
       const res = await fetch(`${API_BASE}/api/admin/coupons/${editCouponId}`, {
         method: 'PATCH',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
         body: JSON.stringify(payload)
       });
 
@@ -223,9 +227,11 @@ export default function CouponsPage() {
 
     setDeleting(true);
     try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
       const res = await fetch(`${API_BASE}/api/admin/coupons/${coupon.id}`, {
         method: 'DELETE',
-        credentials: 'include'
+        credentials: 'include',
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
       });
 
       const json = await res.json();

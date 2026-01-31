@@ -51,7 +51,11 @@ export default function PurchasesPage() {
       if (filters.planName) params.set('planName', filters.planName);
       if (filters.status) params.set('status', filters.status);
 
-      const res = await fetch(`${API_BASE}/api/admin/purchases?${params.toString()}`, { credentials: 'include' });
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+      const res = await fetch(`${API_BASE}/api/admin/purchases?${params.toString()}`, {
+        credentials: 'include',
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
 
       // Attempt to read response body safely
       const text = await res.text();

@@ -44,7 +44,8 @@ export default function CouponsPanel({ couponsProps }) {
 
   const [message, setMessage] = React.useState(null); // { text, severity }
 
-  const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+  const API_BASE = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:8000';
 
   const showMessage = (text, severity = 'info') => {
     setMessage({ text, severity });
@@ -70,7 +71,7 @@ export default function CouponsPanel({ couponsProps }) {
       params.set('page', p);
       params.set('limit', limit);
       if (search) params.set('search', search);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/admin/coupons?${params.toString()}`, { credentials: 'include', headers: token ? { 'Authorization': `Bearer ${token}` } : {} });
+      const res = await fetch(`${API_BASE}/api/admin/coupons?${params.toString()}`, { credentials: 'include', headers: token ? { 'Authorization': `Bearer ${token}` } : {} });
 
       const text = await res.text();
       let json = null;
@@ -121,7 +122,7 @@ export default function CouponsPanel({ couponsProps }) {
         return;
       }
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/admin/coupons`, {
+      const res = await fetch(`${API_BASE}/api/admin/coupons`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
@@ -152,7 +153,7 @@ export default function CouponsPanel({ couponsProps }) {
   const toggleActive = async (c) => {
     console.log('[CouponsPanel] toggleActive clicked for', c._id || c.id);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/admin/coupons/${c._id || c.id}`, {
+      const res = await fetch(`${API_BASE}/api/admin/coupons/${c._id || c.id}`, {
         method: 'PUT',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
@@ -182,7 +183,7 @@ export default function CouponsPanel({ couponsProps }) {
     console.log('[CouponsPanel] handleDelete clicked for', c._id || c.id);
     if (!confirm('Delete coupon?')) return;
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/admin/coupons/${c._id || c.id}`, { method: 'DELETE', credentials: 'include', headers: token ? { 'Authorization': `Bearer ${token}` } : {} });
+      const res = await fetch(`${API_BASE}/api/admin/coupons/${c._id || c.id}`, { method: 'DELETE', credentials: 'include', headers: token ? { 'Authorization': `Bearer ${token}` } : {} });
 
       const text = await res.text();
       let json = null;
@@ -208,7 +209,7 @@ export default function CouponsPanel({ couponsProps }) {
     setUsageOpen(true);
     setUsageData(null);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/admin/coupons/${c._id || c.id}/usage`, { credentials: 'include', headers: token ? { 'Authorization': `Bearer ${token}` } : {} });
+      const res = await fetch(`${API_BASE}/api/admin/coupons/${c._id || c.id}/usage`, { credentials: 'include', headers: token ? { 'Authorization': `Bearer ${token}` } : {} });
       if (!res.ok) throw new Error('Failed to get usage');
       const json = await res.json();
       console.log('[CouponsPanel] viewUsage response', json);
@@ -339,7 +340,7 @@ export default function CouponsPanel({ couponsProps }) {
                 return;
               }
 
-              const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/admin/coupons/${id}`, {
+              const res = await fetch(`${API_BASE}/api/admin/coupons/${id}`, {
                 method: 'PUT',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },

@@ -78,7 +78,11 @@ export default function UserManagement() {
   const getUsers = async () => {
     try {
       setLoading(true);
-      const result = await fetch(`${API_BASE}/api/admin/users`, { credentials: 'include' });
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+      const result = await fetch(`${API_BASE}/api/admin/users`, {
+        credentials: 'include',
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
       const jsonResult = await result.json();
       
       if (jsonResult.status === true && jsonResult.data) {
